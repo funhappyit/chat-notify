@@ -1,17 +1,17 @@
 # 💬 Chat Notify
 
 > 실시간 채팅 + SSE 알림 서버  
-> **WebSocket · Redis Pub/Sub · JWT 인증 · 분산 환경 브로드캐스팅** 역량을 증명하기 위한 포트폴리오 프로젝트
+> **WebSocket · Redis Pub/Sub · JWT 인증 · 분산 환경 브로드캐스팅**
 
 ---
 
-## 📌 프로젝트 목적
+## 📌 프로젝트 개요
 
-[puzzle-leaderboard](https://github.com/funhappyit/puzzle-leaderboard)에서 동시성 제어와 Redis 캐싱을 증명한 데 이어,  
-**실시간 양방향 통신 · 분산 메시지 브로드캐스팅 · SSE 알림** 역량을 추가로 증명한다.
+[puzzle-leaderboard](https://github.com/funhappyit/puzzle-leaderboard)에 이어  
+**실시간 양방향 통신, 분산 메시지 브로드캐스팅, SSE 알림**을 다루는 프로젝트.
 
 단일 서버에서만 동작하는 WebSocket의 한계를 **Redis Pub/Sub**으로 해결하여  
-다중 서버 환경에서도 모든 클라이언트에 메시지가 전달됨을 구현하고 수치로 검증한다.
+다중 서버 환경에서도 모든 클라이언트에 메시지가 정상적으로 전달되도록 구현한다.
 
 ---
 
