@@ -147,10 +147,10 @@ npm run dev
 
 ## 📅 개발 로드맵
 
-- [ ] **1주차** — JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/funhappyit/chat-notify/issues/1))
-- [ ] **2주차** — WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/funhappyit/chat-notify/issues/2))
-- [ ] **3주차** — SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/funhappyit/chat-notify/issues/3))
-- [ ] **4주차** — 배포 및 마무리 ([#4](https://github.com/funhappyit/chat-notify/issues/4))
+- [ ] JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/funhappyit/chat-notify/issues/1))
+- [ ] WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/funhappyit/chat-notify/issues/2))
+- [ ] SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/funhappyit/chat-notify/issues/3))
+- [ ] 배포 및 마무리 ([#4](https://github.com/funhappyit/chat-notify/issues/4))
 
 ---
 
