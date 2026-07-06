@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: chat-notify-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chat_notify
+      MYSQL_USER: chat_notify
+      MYSQL_PASSWORD: chat_notify
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - chat-notify-mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: chat-notify-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  chat-notify-mysql-data:

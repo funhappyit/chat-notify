@@ -1,0 +1,24 @@
+server:
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: chat-notify
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+jwt:
+  secret: ${JWT_SECRET:local-dev-only-secret-please-change-me-0123456789}
+  access-token-expiration-ms: 1800000
+  refresh-token-expiration-ms: 604800000

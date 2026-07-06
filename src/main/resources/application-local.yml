@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3307/chat_notify?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: chat_notify
+    password: chat_notify
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    com.chatnotify: debug
