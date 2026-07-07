@@ -23,7 +23,8 @@ public class SecurityConfig {
             "/api/v1/auth/signup",
             "/api/v1/auth/login",
             "/api/v1/auth/refresh",
-            "/error"
+            "/error",
+            "/ws/**"
     };
 
     @Bean

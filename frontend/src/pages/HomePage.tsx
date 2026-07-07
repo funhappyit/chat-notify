@@ -24,6 +24,7 @@ export default function HomePage() {
     <div className="auth-page">
       <h1>Chat Notify</h1>
       <p>로그인되었습니다.</p>
+      <button onClick={() => navigate('/rooms')}>채팅방 목록으로</button>
       <button onClick={handleLogout}>로그아웃</button>
     </div>
   )
