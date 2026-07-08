@@ -52,6 +52,7 @@ export interface RoomResponse {
   name: string
   createdBy: number
   createdAt: string
+  unreadCount: number
 }
 
 export interface MessageResponse {

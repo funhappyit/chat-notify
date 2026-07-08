@@ -1,13 +1,16 @@
 import axios from 'axios'
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createRoom, extractErrorMessage, joinRoom, listRooms, type RoomResponse } from '../api/client'
+import { subscribeNotifications, type NotificationEvent } from '../api/notifications'
 
 export default function RoomListPage() {
   const navigate = useNavigate()
   const [rooms, setRooms] = useState<RoomResponse[]>([])
   const [newRoomName, setNewRoomName] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [toast, setToast] = useState<string | null>(null)
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>()
 
   async function loadRooms() {
     try {
@@ -19,6 +22,20 @@ export default function RoomListPage() {
 
   useEffect(() => {
     loadRooms()
+  }, [])
+
+  useEffect(() => {
+    const eventSource = subscribeNotifications((event: NotificationEvent) => {
+      setRooms((prev) => prev.map((room) => (room.id === event.roomId ? { ...room, unreadCount: event.unreadCount } : room)))
+
+      const room = rooms.find((r) => r.id === event.roomId)
+      setToast(`${room?.name ?? '채팅방'}에 새 메시지가 도착했습니다.`)
+      clearTimeout(toastTimer.current)
+      toastTimer.current = setTimeout(() => setToast(null), 3000)
+    })
+
+    return () => eventSource.close()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleCreate(e: FormEvent) {
@@ -52,6 +69,8 @@ export default function RoomListPage() {
     <div className="room-list-page">
       <h1>채팅방 목록</h1>
 
+      {toast && <div className="toast">{toast}</div>}
+
       <form onSubmit={handleCreate} className="room-create-form">
         <input
           value={newRoomName}
@@ -67,7 +86,10 @@ export default function RoomListPage() {
       <ul className="room-list">
         {rooms.map((room) => (
           <li key={room.id}>
-            <span>{room.name}</span>
+            <span>
+              {room.name}
+              {room.unreadCount > 0 && <span className="unread-badge">{room.unreadCount}</span>}
+            </span>
             <button onClick={() => handleJoin(room.id)}>입장</button>
           </li>
         ))}

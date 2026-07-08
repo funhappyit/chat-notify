@@ -1,5 +1,6 @@
 package com.chatnotify.room;
 
+import com.chatnotify.message.MessageRepository;
 import com.chatnotify.room.dto.RoomCreateRequest;
 import com.chatnotify.room.dto.RoomResponse;
 import com.chatnotify.user.User;
@@ -17,13 +18,16 @@ public class RoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final RoomMemberRepository roomMemberRepository;
     private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
 
     public RoomService(ChatRoomRepository chatRoomRepository,
                         RoomMemberRepository roomMemberRepository,
-                        UserRepository userRepository) {
+                        UserRepository userRepository,
+                        MessageRepository messageRepository) {
         this.chatRoomRepository = chatRoomRepository;
         this.roomMemberRepository = roomMemberRepository;
         this.userRepository = userRepository;
+        this.messageRepository = messageRepository;
     }
 
     @Transactional
@@ -31,11 +35,20 @@ public class RoomService {
         User creator = userRepository.getReferenceById(currentUserId);
         ChatRoom room = chatRoomRepository.save(new ChatRoom(request.name(), creator));
         roomMemberRepository.save(new RoomMember(room, creator));
-        return RoomResponse.from(room);
+        return RoomResponse.from(room, 0);
     }
 
-    public List<RoomResponse> listRooms() {
-        return chatRoomRepository.findAll().stream().map(RoomResponse::from).toList();
+    public List<RoomResponse> listRooms(Long currentUserId) {
+        return chatRoomRepository.findAll().stream()
+                .map(room -> RoomResponse.from(room, unreadCountFor(room.getId(), currentUserId)))
+                .toList();
+    }
+
+    private long unreadCountFor(Long roomId, Long userId) {
+        if (!roomMemberRepository.existsByRoomIdAndUserId(roomId, userId)) {
+            return 0;
+        }
+        return messageRepository.countByRoomIdAndSenderIdNotAndReadFalse(roomId, userId);
     }
 
     @Transactional
