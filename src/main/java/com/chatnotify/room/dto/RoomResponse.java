@@ -7,9 +7,10 @@ public record RoomResponse(
         Long id,
         String name,
         Long createdBy,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        long unreadCount
 ) {
-    public static RoomResponse from(ChatRoom room) {
-        return new RoomResponse(room.getId(), room.getName(), room.getCreatedBy().getId(), room.getCreatedAt());
+    public static RoomResponse from(ChatRoom room, long unreadCount) {
+        return new RoomResponse(room.getId(), room.getName(), room.getCreatedBy().getId(), room.getCreatedAt(), unreadCount);
     }
 }

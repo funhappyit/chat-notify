@@ -37,8 +37,8 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoomResponse>> list() {
-        return ResponseEntity.ok(roomService.listRooms());
+    public ResponseEntity<List<RoomResponse>> list(@AuthenticationPrincipal UserPrincipal principal) {
+        return ResponseEntity.ok(roomService.listRooms(principal.getId()));
     }
 
     @PostMapping("/{id}/join")
