@@ -1,6 +1,7 @@
 package com.chatnotify.config;
 
 import com.chatnotify.security.StompAuthChannelInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -14,6 +15,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final StompAuthChannelInterceptor stompAuthChannelInterceptor;
 
+    @Value("${web.cors.allowed-origins:*}")
+    private String allowedOrigins;
+
     public WebSocketConfig(StompAuthChannelInterceptor stompAuthChannelInterceptor) {
         this.stompAuthChannelInterceptor = stompAuthChannelInterceptor;
     }
@@ -21,7 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns(allowedOrigins.split(","))
                 .withSockJS();
     }
 

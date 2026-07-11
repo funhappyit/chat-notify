@@ -15,6 +15,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
+    private static final String SSE_SUBSCRIBE_PATH = "/api/v1/notify/subscribe";
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailsService userDetailsService;
@@ -46,7 +47,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith(BEARER_PREFIX)) {
             return header.substring(BEARER_PREFIX.length());
         }
-        // 브라우저의 EventSource(SSE)는 커스텀 헤더를 지원하지 않으므로 쿼리 파라미터로 대체
-        return request.getParameter("token");
+        // 브라우저의 EventSource(SSE)는 커스텀 헤더를 지원하지 않으므로, 해당 엔드포인트에 한해 쿼리 파라미터로 대체
+        if (SSE_SUBSCRIBE_PATH.equals(request.getRequestURI())) {
+            return request.getParameter("token");
+        }
+        return null;
     }
 }

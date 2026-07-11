@@ -1,0 +1,22 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      url: ${REDIS_URL}
+  jpa:
+    show-sql: false
+
+web:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://chat-notify.vercel.app}
+
+logging:
+  level:
+    com.chatnotify: INFO
