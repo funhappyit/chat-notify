@@ -16,6 +16,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -60,8 +62,15 @@ public class MessageService {
         Message saved = messageRepository.save(new Message(room, sender, content));
         MessageResponse response = MessageResponse.from(saved);
 
-        publishMessage(response);
-        notifyOtherMembers(roomId, senderId);
+        // DB 커밋 전에 Redis로 발행하면, 발행 이후 예외로 트랜잭션이 롤백될 때
+        // "이미 브로드캐스트됐지만 DB엔 없는 메시지"가 생길 수 있어 커밋 완료 후로 미룬다.
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                publishMessage(response);
+                notifyOtherMembers(roomId, senderId);
+            }
+        });
 
         return response;
     }

@@ -26,16 +26,17 @@ export default function RoomListPage() {
 
   useEffect(() => {
     const eventSource = subscribeNotifications((event: NotificationEvent) => {
-      setRooms((prev) => prev.map((room) => (room.id === event.roomId ? { ...room, unreadCount: event.unreadCount } : room)))
+      setRooms((prev) => {
+        const room = prev.find((r) => r.id === event.roomId)
+        setToast(`${room?.name ?? '채팅방'}에 새 메시지가 도착했습니다.`)
+        clearTimeout(toastTimer.current)
+        toastTimer.current = setTimeout(() => setToast(null), 3000)
 
-      const room = rooms.find((r) => r.id === event.roomId)
-      setToast(`${room?.name ?? '채팅방'}에 새 메시지가 도착했습니다.`)
-      clearTimeout(toastTimer.current)
-      toastTimer.current = setTimeout(() => setToast(null), 3000)
+        return prev.map((r) => (r.id === event.roomId ? { ...r, unreadCount: event.unreadCount } : r))
+      })
     })
 
     return () => eventSource.close()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleCreate(e: FormEvent) {
