@@ -1,6 +1,7 @@
 import { Client, type StompSubscription } from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
 import type { MessageResponse } from './client'
+import { API_BASE_URL } from '../config'
 
 let client: Client | null = null
 
@@ -9,7 +10,7 @@ export function connectSocket(): Promise<void> {
     const accessToken = localStorage.getItem('accessToken')
 
     client = new Client({
-      webSocketFactory: () => new SockJS('/ws'),
+      webSocketFactory: () => new SockJS(`${API_BASE_URL}/ws`),
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
