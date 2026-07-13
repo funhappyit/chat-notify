@@ -145,10 +145,10 @@ npm run dev
 
 ## 📅 개발 로드맵
 
-- [x] JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/amiesoft-hyk/chat-notify/issues/1))
-- [x] WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/amiesoft-hyk/chat-notify/issues/2))
-- [x] SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/amiesoft-hyk/chat-notify/issues/3))
-- [ ] 배포 및 마무리 ([#4](https://github.com/amiesoft-hyk/chat-notify/issues/4))
+- [x] JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/funhappyit/chat-notify/issues/1))
+- [x] WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/funhappyit/chat-notify/issues/2))
+- [x] SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/funhappyit/chat-notify/issues/3))
+- [ ] 배포 및 마무리 ([#4](https://github.com/funhappyit/chat-notify/issues/4))
 
 ---
 
@@ -166,6 +166,6 @@ npm run dev
 
 ## 🔗 관련 링크
 
-- [GitHub Issues](https://github.com/amiesoft-hyk/chat-notify/issues)
+- [GitHub Issues](https://github.com/funhappyit/chat-notify/issues)
 - [Frontend](https://chat-notify.vercel.app)
 - [Backend API](https://chat-notify.onrender.com)
