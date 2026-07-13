@@ -35,23 +35,21 @@
 
 ## 🏗 아키텍처
 
-```
-[React : Vercel]
-  ├── WebSocket (STOMP)  ──▶ 실시간 메시지 송수신
-  └── SSE                ──▶ 읽지 않은 메시지 알림
-         │
-         ▼
-[Render - Spring Boot : 8080]
-  ├── STOMP /pub/message  ──▶ Redis Pub/Sub 발행
-  │                                  │
-  │                         모든 서버 구독 수신
-  │                                  │
-  ├── STOMP /sub/room/{id} ◀──────────┘  브로드캐스팅
-  │
-  ├── SSE /api/v1/notify  ──▶ 안읽은 메시지 카운트 Push
-  │
-  ├── [Aiven - MySQL]     ──▶ 메시지 영속화
-  └── [Upstash - Redis]   ──▶ Pub/Sub 메시지 브로드캐스팅
+```mermaid
+flowchart TD
+    Client["React : Vercel"]
+    Server["Render · Spring Boot"]
+    DB[("Aiven · MySQL")]
+    Redis[("Upstash · Redis")]
+
+    Client -- "WebSocket (STOMP)\n실시간 메시지 송수신" --> Server
+    Client -- "SSE\n읽지 않은 메시지 알림" --> Server
+
+    Server -- "STOMP /pub/message\nRedis에 발행" --> Redis
+    Redis -- "모든 서버 구독 수신\nSTOMP /sub/room/{id}로 브로드캐스팅" --> Server
+    Server -- "SSE /api/v1/notify\n안읽은 메시지 카운트 Push" --> Client
+
+    Server -- "메시지 영속화" --> DB
 ```
 
 **Redis Pub/Sub이 필요한 이유**
@@ -147,15 +145,15 @@ npm run dev
 
 ## 📅 개발 로드맵
 
-- [ ] JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/funhappyit/chat-notify/issues/1))
-- [ ] WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/funhappyit/chat-notify/issues/2))
-- [ ] SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/funhappyit/chat-notify/issues/3))
-- [ ] 배포 및 마무리 ([#4](https://github.com/funhappyit/chat-notify/issues/4))
+- [x] JWT 인증 + 프로젝트 기반 구축 ([#1](https://github.com/amiesoft-hyk/chat-notify/issues/1))
+- [x] WebSocket + STOMP 실시간 채팅 ([#2](https://github.com/amiesoft-hyk/chat-notify/issues/2))
+- [x] SSE 알림 + Redis Pub/Sub 분산 브로드캐스팅 ([#3](https://github.com/amiesoft-hyk/chat-notify/issues/3))
+- [ ] 배포 및 마무리 ([#4](https://github.com/amiesoft-hyk/chat-notify/issues/4))
 
 ---
 
 ## 🔗 관련 링크
 
-- [GitHub Issues](https://github.com/funhappyit/chat-notify/issues)
-- [Frontend Dashboard](#) _(배포 후 업데이트)_
-- [Backend API](#) _(배포 후 업데이트)_
+- [GitHub Issues](https://github.com/amiesoft-hyk/chat-notify/issues)
+- [Frontend](https://chat-notify.vercel.app)
+- [Backend API](https://chat-notify.onrender.com)
